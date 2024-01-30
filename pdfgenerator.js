@@ -8,7 +8,7 @@ const path = require('path');
 const sharp = require('sharp');
 const app = express();
 const upload = multer({ dest: 'uploads/' });
-const port = 3000;
+const port = 3001;
 
 const config = {
   lang: 'eng',
