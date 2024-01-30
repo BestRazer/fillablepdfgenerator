@@ -1,78 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #333;
-  color: #fff;
-}
+  <style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #333;
+    color: #fff;
+  }
 
-sup {
-  font-size: 0.5em;
-  color: yellow;
-}
+  sup {
+    font-size: 0.5em;
+    color: yellow;
+  }
 
-.info {
-  background-color: #555;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-  margin-bottom: 20px;
-  width: 50%;
-  text-align: center;
-}
+  .info {
+    background-color: #555;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    width: 50%;
+    text-align: center;
+  }
 
-.github {
-  font-size: 10px;
-}
+  .github {
+    font-size: 10px;
+  }
 
-form {
-  background-color: #444;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-  width: 50%;
-}
+  form {
+    background-color: #444;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    width: 50%;
+  }
 
-label {
-  display: block;
-  margin-top: 10px;
-}
+  label {
+    display: block;
+    margin-top: 10px;
+  }
 
-input[type="file"] {
-  margin-top: 10px;
-}
+  input[type="file"] {
+    margin-top: 10px;
+  }
 
-input[type="range"] {
-  width: 100%;
-}
+  input[type="range"] {
+    width: 100%;
+  }
 
-input[type="submit"] {
-  margin-top: 10px;
-  padding: 10px 20px;
-  border: none;
-  background-color: #00BFFF;
-  color: #fff;
-  border-radius: 5px;
-  cursor: pointer;
-}
+  input[type="submit"] {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #00BFFF;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 
-input[type="submit"]:hover {
-  background-color: #0080FF;
-}
-</style>
+  input[type="submit"]:hover {
+    background-color: #0080FF;
+  }
+  </style>
+  <title>Fillable PDF generator</title>
 </head>
 <body>
   <div class="info">
-    <h2>Digital Worksheet generator <sup>BETA</sup></h2>    
+    <h2>Fillable PDF generator / Digital Worksheet generator <sup>BETA</sup></h2>    
     <p>I've always hated manually filling out scanned worksheets by dragging and dropping text fields. So, I created this website to automatically create a fillable pdf out of a picture of a worksheet.</p>
     <p>To get started, select a file. The minimum length slider sets the minimum length a line has to be to become a fillable field, the standard value should usually be fine. Once you've uploaded your image, press 'Upload & Fill' and your PDF should automatically be downloaded!</p>
     <p class="github">This project is open source: <a href="https://github.com/BestRazer/fillablepdfgenerator">GitHub</a>. I'm always happy about contributions :)</p>
