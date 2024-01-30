@@ -30,6 +30,10 @@ sup {
   text-align: center;
 }
 
+.github {
+  font-size: 10px;
+}
+
 form {
   background-color: #444;
   padding: 20px;
@@ -68,9 +72,10 @@ input[type="submit"]:hover {
 </head>
 <body>
   <div class="info">
-    <h2>Digital Worksheet generator <sup>BETA</sup></h2>
+    <h2>Digital Worksheet generator <sup>BETA</sup></h2>    
     <p>I've always hated manually filling out scanned worksheets by dragging and dropping text fields. So, I created this website to automatically create a fillable pdf out of a picture of a worksheet.</p>
     <p>To get started, select a file. The minimum length slider sets the minimum length a line has to be to become a fillable field, the standard value should usually be fine. Once you've uploaded your image, press 'Upload & Fill' and your PDF should automatically be downloaded!</p>
+    <p class="github">This project is open source: <a href="https://github.com/BestRazer/fillablepdfgenerator">GitHub</a>. I'm always happy about contributions :)</p>
   </div>
   
   <form action="/upload" method="post" enctype="multipart/form-data">
