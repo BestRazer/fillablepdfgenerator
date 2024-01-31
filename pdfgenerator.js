@@ -31,34 +31,74 @@ function isAnythingAbove(line, image, threshold) {
 
 async function createForm(imagePath, minLineLength) {
     // Load the image
-    const image = await Image.load(imagePath);
+    let image = await Image.load(imagePath);
+
+    // Resize the image to a smaller size
+    const scaleFactor = 0.1; // Adjust this value as needed
+    image = image.resize({
+        width: Math.floor(image.width * scaleFactor),
+        height: Math.floor(image.height * scaleFactor)
+    });
+
     // Convert the image to grayscale
     const grey = image.grey();
+
     // Apply the Sobel operator to detect edges
     const edges = grey.sobelFilter();
 
-    // Scan the image for continuous straight lines
-    const lines = [];
-    // const minLineLength = 250; // Minimum length of a line to be considered
-    const anythingAboveThreshold = 10; // Adjust this value as needed
-    for (let y = 0; y < edges.height; y++) {
-        let start = null;
-        for (let x = 0; x < edges.width; x++) {
-            const pixel = edges.getPixelXY(x, y);
-            const isEdge = pixel[0] > 128; // Edge if red component is greater than 128
-            if (isEdge && start === null) {
-                start = x;
-            } else if (!isEdge && start !== null) {
-                if (x - start >= minLineLength) { // Only add the line if it's long enough
-                    const line = { x0: start, y0: y, x1: x, y1: y };
-                    // Only add the line if it's not too close to text
-                    if (!isAnythingAbove(line, image, anythingAboveThreshold)) {
-                        lines.push(line);
-                    }
-                }
-                start = null;
+    // Define the 8 possible directions
+    const directions = [
+      { dx: -1, dy: -1 }, // Up-left
+      { dx: 0, dy: -1 }, // Up
+      { dx: 1, dy: -1 }, // Up-right
+      { dx: 1, dy: 0 }, // Right
+      { dx: 1, dy: 1 }, // Down-right
+      { dx: 0, dy: 1 }, // Down
+      { dx: -1, dy: 1 }, // Down-left
+      { dx: -1, dy: 0 } // Left
+  ];
+  
+  const gridSize = 100; // Adjust this value as needed
+  const chains = [];
+  
+  for (let gridY = 0; gridY < edges.height; gridY += gridSize) {
+      for (let gridX = 0; gridX < edges.width; gridX += gridSize) {
+          const visited = new Uint8Array(gridSize * gridSize);
+          for (let y = gridY; y < Math.min(gridY + gridSize, edges.height); y++) {
+              for (let x = gridX; x < Math.min(gridX + gridSize, edges.width); x++) {
+                  const pixel = edges.getPixelXY(x, y);
+                  const isEdge = pixel[0] > 128; // Edge if red component is greater than 128
+                  if (isEdge && visited[(y - gridY) * gridSize + (x - gridX)] === 0) {
+                      const chain = [];
+                      let current = { x, y };
+                      do {
+                          visited[(current.y - gridY) * gridSize + (current.x - gridX)] = 1;
+                          chain.push(current);
+                          for (const direction of directions) {
+                              const next = { x: current.x + direction.dx, y: current.y + direction.dy };
+                              const nextPixel = edges.getPixelXY(next.x, next.y);
+                              const isNextEdge = nextPixel[0] > 128;
+                              if (isNextEdge && visited[(next.y - gridY) * gridSize + (next.x - gridX)] === 0) {
+                                  current = next;
+                                  break;
+                              }
+                          }
+                      } while (current.x !== x || current.y !== y);
+                      chains.push(chain);
+                  }
+              }
+          }
+      }
+  }
+
+    function isDuplicate(newLine, existingLines) {
+        for (const line of existingLines) {
+            if (Math.abs(newLine.x0 - line.x0) < 10 && Math.abs(newLine.y0 - line.y0) < 10 && 
+                Math.abs(newLine.x1 - line.x1) < 10 && Math.abs(newLine.y1 - line.y1) < 10) {
+                return true;
             }
         }
+        return false;
     }
 
     console.log(`Number of lines: ${lines.length}`);
